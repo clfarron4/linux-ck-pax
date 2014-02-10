@@ -76,6 +76,12 @@ source=("http://www.kernel.org/pub/linux/kernel/v3.x/${_srcname}.tar.xz"
         'change-default-console-loglevel.patch'
         'config' 'config.x86_64'
         'criu-no-expert.patch'
+	'sunrpc-create-a-new-dummy-pipe-for-gssd-to-hold-open.patch'
+	'sunrpc-replace-gssd_running-with-more-reliable-check.patch'
+	'nfs-check-gssd-running-before-krb5i-auth.patch'
+	'rpc_pipe-remove-the-clntXX-dir-if-creating-the-pipe-fails.patch'
+	'sunrpc-add-an-info-file-for-the-dummy-gssd-pipe.patch'
+	'rpc_pipe-fix-cleanup-of-dummy-gssd-directory-when-notification-fails.patch'
         "${_bfqpath}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v7r1-3.12.patch"
         "${_bfqpath}/0002-block-introduce-the-BFQ-v7r1-I-O-sched-for-3.12.patch"
         "${_bfqpath}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r1-for-3.12.0.patch"
