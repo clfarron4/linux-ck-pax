@@ -129,6 +129,16 @@ prepare() {
 	# allow criu without expert option set
 	# patch from fedora
 	patch -Np1 -i "${srcdir}/criu-no-expert.patch"
+	# fix 15 seocnds nfs delay
+	patch -Np1 -i "${srcdir}/sunrpc-create-a-new-dummy-pipe-for-gssd-to-hold-open.patch"
+	patch -Np1 -i "${srcdir}/sunrpc-replace-gssd_running-with-more-reliable-check.patch"
+	patch -Np1 -i "${srcdir}/nfs-check-gssd-running-before-krb5i-auth.patch"
+	# fix nfs kernel oops
+	# #37866
+	patch -Np1 -i "${srcdir}/rpc_pipe-remove-the-clntXX-dir-if-creating-the-pipe-fails.patch"
+	patch -Np1 -i "${srcdir}/sunrpc-add-an-info-file-for-the-dummy-gssd-pipe.patch"
+
+	patch -Np1 -i "${srcdir}/rpc_pipe-fix-cleanup-of-dummy-gssd-directory-when-notification-fails.patch"
 
 	# patch source with ck patchset with BFS
 	# fix double name in EXTRAVERSION
