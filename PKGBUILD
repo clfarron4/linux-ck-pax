@@ -86,7 +86,7 @@ source=("http://www.kernel.org/pub/linux/kernel/v3.x/${_srcname}.tar.xz"
         "${_bfqpath}/0002-block-introduce-the-BFQ-v7r1-I-O-sched-for-3.12.patch"
         "${_bfqpath}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r1-for-3.12.0.patch"
         "pax-ck-${pkgver}-${_paxver}.patch"
-        "http://grsecurity.net/test/pax-linux-${pkgver}-${_paxver}.patch")
+        "https://grsecurity.net/~paxguy1/pax-linux-${pkgver}-${_paxver}.patch")
 sha256sums=('2e120ec7fde19fa51dc6b6cc11c81860a0775defcad5a5bf910ed9a50e845a02'
             'a8e056bec1a39bbca8d2df9c477a9dee0e263ae4335601548eda14326e83e782'
             '413def4af24ff70615cf5ef5cc1f1347bd634d87686a84ad0e2c2d3b052da8b8'
