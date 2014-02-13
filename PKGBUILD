@@ -76,12 +76,12 @@ source=("http://www.kernel.org/pub/linux/kernel/v3.x/${_srcname}.tar.xz"
         'change-default-console-loglevel.patch'
         'config' 'config.x86_64'
         'criu-no-expert.patch'
-	'sunrpc-create-a-new-dummy-pipe-for-gssd-to-hold-open.patch'
-	'sunrpc-replace-gssd_running-with-more-reliable-check.patch'
-	'nfs-check-gssd-running-before-krb5i-auth.patch'
-	'rpc_pipe-remove-the-clntXX-dir-if-creating-the-pipe-fails.patch'
-	'sunrpc-add-an-info-file-for-the-dummy-gssd-pipe.patch'
-	'rpc_pipe-fix-cleanup-of-dummy-gssd-directory-when-notification-fails.patch'
+		'0001-sunrpc-create-a-new-dummy-pipe-for-gssd-to-hold-open.patch'
+		'0002-sunrpc-replace-sunrpc_net-gssd_running-flag-with-a-m.patch'
+		'0003-nfs-check-if-gssd-is-running-before-attempting-to-us.patch'
+		'0004-rpc_pipe-remove-the-clntXX-dir-if-creating-the-pipe-.patch'
+		'0005-sunrpc-add-an-info-file-for-the-dummy-gssd-pipe.patch'
+		'0006-rpc_pipe-fix-cleanup-of-dummy-gssd-directory-when-no.patch'
         "${_bfqpath}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v7r1-3.12.patch"
         "${_bfqpath}/0002-block-introduce-the-BFQ-v7r1-I-O-sched-for-3.12.patch"
         "${_bfqpath}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r1-for-3.12.0.patch"
@@ -93,15 +93,15 @@ sha256sums=('2e120ec7fde19fa51dc6b6cc11c81860a0775defcad5a5bf910ed9a50e845a02'
             'caf4d413bec6de71ac33b5eef578579452613c552412788c93b5de7dc6ee6899'
             'f126f7d4005b5d0adb61f0ccde95ac42baaf6f2bec14babd6d14935e377481b2'
             'faced4eb4c47c4eb1a9ee8a5bf8a7c4b49d6b4d78efbe426e410730e6267d182'
-            '8f7b30d5756898f89ec424d25a59c24a4e9e6a95eb8bb9c1a9af031edfac553b'
-            'ee9fb87a9b61b0e30c1424868ba189429d1b74c6bc7588a88fce52fdbd58538f'
-            'daa75228a4c45a925cc5dbfeba884aa696a973a26af7695adc198c396474cbd5'
-            'b6f366ed2100ccab99029f61c39c0781ad4863f537381626196ed43b4b115a21'
-            'cbfabd113a1954cd3d6cc1e70c19b95ce36a19e2c92ad93939d4982077178135'
-            '139d576c540840fe18b0ce8468c243011e5f8b4aebfb1a288afe10b9f8d88137'
-            'c045ce9c2571c4e6ff63345ea9abd9f778f56206f686b95491523ac740458420'
-            'd8d6745a165e7f1608d8c298e49c8c2fee5a5d6c61c5b80d63a8dc7913ff8dc8'
-            'fecca9a761f3427c7f2f793e5d9a34d6f43799143e9a6b51edc372f88c76022e'
+            'ba3a78919f540024a99d3d498e0c08394eb54c94f24f0b6cdcd57200818173d1'
+            '5299a212356c6bdb8e93fa358a37902463315a6dd6bb12290b9bab678f34c620'
+            '45b8a7a87e995bf3cbb79f9008672724527c3794cb51024718faedeb072b674a'
+            '6ed0d7b259dca7a3cb4ed5cba10e87d2f9b29ecab6438e47f70d6961cc0eb665'
+            '3e3a2f5531b18fa6494bf1d555be981aef288c5d74480569d907629be06b54b3'
+            '605c9e27fb08cb893e6e3293d431c3421eb14c587adf014d964ccc51cd6d0e6d'
+            'df5c98b5719b97accbee16d387b81781cd9694801cf1f1d831fdf5069942fda1'
+            'ed41c98da84dc0003777edca3101d4923be76701d6b494cd7c512a4da39de710'
+            'b54af31bf32ea47dd47c48113481cc3288c04d844f5b4814663b108f43f415a7'
             '87053ddc166c14f5726926bc7a218192b6525e64030d25711a1b4e913156ab44'
             '7460b296f0e379bb630eaac6d3e8a76eedcf30b490c5281e5fa75e2ddc0db94b'
             '43faef626341cb71be838070691b0d472df5f6f4faa6593376bd3eb2d0a30d15'
@@ -124,21 +124,26 @@ prepare() {
 	# set DEFAULT_CONSOLE_LOGLEVEL to 4 (same value as the 'quiet' kernel param)
 	# remove this when a Kconfig knob is made available by upstream
 	# (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
-	patch -Np1 -i "${srcdir}/change-default-console-loglevel.patch"
+	patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
 
-	# allow criu without expert option set
-	# patch from fedora
-	patch -Np1 -i "${srcdir}/criu-no-expert.patch"
+	# allow Checkpoint/restore (for criu) without EXPERT=y
+	patch -p1 -i "${srcdir}/criu-no-expert.patch"
+	
 	# fix 15 seocnds nfs delay
-	patch -Np1 -i "${srcdir}/sunrpc-create-a-new-dummy-pipe-for-gssd-to-hold-open.patch"
-	patch -Np1 -i "${srcdir}/sunrpc-replace-gssd_running-with-more-reliable-check.patch"
-	patch -Np1 -i "${srcdir}/nfs-check-gssd-running-before-krb5i-auth.patch"
-	# fix nfs kernel oops
-	# #37866
-	patch -Np1 -i "${srcdir}/rpc_pipe-remove-the-clntXX-dir-if-creating-the-pipe-fails.patch"
-	patch -Np1 -i "${srcdir}/sunrpc-add-an-info-file-for-the-dummy-gssd-pipe.patch"
+	# http://git.linux-nfs.org/?p=trondmy/linux-nfs.git;a=commitdiff;h=4b9a445e3eeb8bd9278b1ae51c1b3a651e370cd6
+	patch -p1 -i "${srcdir}/0001-sunrpc-create-a-new-dummy-pipe-for-gssd-to-hold-open.patch"
+	# http://git.linux-nfs.org/?p=trondmy/linux-nfs.git;a=commitdiff;h=89f842435c630f8426f414e6030bc2ffea0d6f81
+	patch -p1 -i "${srcdir}/0002-sunrpc-replace-sunrpc_net-gssd_running-flag-with-a-m.patch"
+	# http://git.linux-nfs.org/?p=trondmy/linux-nfs.git;a=commitdiff;h=6aa23d76a7b549521a03b63b6d5b7880ea87eab7
+	patch -p1 -i "${srcdir}/0003-nfs-check-if-gssd-is-running-before-attempting-to-us.patch"
 
-	patch -Np1 -i "${srcdir}/rpc_pipe-fix-cleanup-of-dummy-gssd-directory-when-notification-fails.patch"
+	# fix nfs kernel oops
+	# http://git.linux-nfs.org/?p=trondmy/linux-nfs.git;a=commitdiff;h=3396f92f8be606ea485b0a82d4e7749a448b013b
+	patch -p1 -i "${srcdir}/0004-rpc_pipe-remove-the-clntXX-dir-if-creating-the-pipe-.patch"
+	# http://git.linux-nfs.org/?p=trondmy/linux-nfs.git;a=commitdiff;h=e2f0c83a9de331d9352185ca3642616c13127539
+	patch -p1 -i "${srcdir}/0005-sunrpc-add-an-info-file-for-the-dummy-gssd-pipe.patch"
+	# http://git.linux-nfs.org/?p=trondmy/linux-nfs.git;a=commitdiff;h=23e66ba97127ff3b064d4c6c5138aa34eafc492f
+	patch -p1 -i "${srcdir}/0006-rpc_pipe-fix-cleanup-of-dummy-gssd-directory-when-no.patch"
 
 	# patch source with ck patchset with BFS
 	# fix double name in EXTRAVERSION
