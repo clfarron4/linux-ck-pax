@@ -1,4 +1,5 @@
-# Maintainer: Duncan Townsend <duncant@mit.edu>
+# Maintainer: Claire Farron <https://github.com/clfarron4/linux-ck-pax/>
+# Former Maintainer: Duncan Townsend <duncant@mit.edu>
 # Contributors of the linux PKGBUILD
 #	Tobias Powalowski <tpowa@archlinux.org>
 #	Thomas Baechler <thomas@archlinux.org>
