@@ -71,7 +71,7 @@ pkgname=linux-ck-pax
 true && pkgname=(linux-ck-pax linux-ck-pax-headers)
 _kernelname=-ck-pax
 _srcname=linux-3.14
-pkgver=3.14.8
+pkgver=3.14.9
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://wiki.archlinux.org/index.php/Linux-ck"
@@ -102,7 +102,7 @@ source=("http://www.kernel.org/pub/linux/kernel/v3.x/${_srcname}.tar.xz"
         "http://grsecurity.net/test/pax-linux-${pkgver}-${_paxver}.patch")
 
 sha256sums=('61558aa490855f42b6340d1a1596be47454909629327c49a5e4e10268065dffa'
-            '0edab0f772836162e5e57ef294d83e88153c15a12f394914c6a25b49e408e8f1'
+            '55c76714bb9c12c600a142d7ad7ba028447d6da630a84af37968579fc9bb1e73'
             '8b5924a8aa17876d394cdeb84740d96317e94d2430caddf753c416100b917d3c'
             'c6c4a9f77683b95c37636b20c4bc8a1f8214c87feef7fc469e58534fcc32fb4a'
             'ba3a78919f540024a99d3d498e0c08394eb54c94f24f0b6cdcd57200818173d1'
@@ -117,8 +117,8 @@ sha256sums=('61558aa490855f42b6340d1a1596be47454909629327c49a5e4e10268065dffa'
             '02b63f3d4aacb10cf8c75a3ba5f1aa837bf1355362961496214df34084e5e661'
             '151a1154eeafebf7219de88e2e8d2eef928a6d6935aa1370c80a2e3d7dde9ee6'
             '652abc58b8cc1891e1c685c701c9c7b7f29d8a08f7ea70f301b0de35c84d5a92'
-            '0faafb282edbb19c901496b39b8687cf4b321bb9d9fe38abc94cf5ffe86c521a'
-            'f4602f6ebf3bde507c25e33bf66a3f0303c0b168fbd57580ef887c4b6c0996a5')
+            '4e2348f643ed375388ab35952f843afb6f99bdca6be797a77520693db7d58e47'
+            'de117d5dc3af86cb410060faa07decb38b25d259951caefafd2bc4e151e75686')
 
 prepare() {
 	cd "${srcdir}"
