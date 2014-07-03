@@ -71,7 +71,7 @@ pkgname=linux-ck-pax
 true && pkgname=(linux-ck-pax linux-ck-pax-headers)
 _kernelname=-ck-pax
 _srcname=linux-3.14
-pkgver=3.14.9
+pkgver=3.14.10
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://wiki.archlinux.org/index.php/Linux-ck"
@@ -94,18 +94,17 @@ source=("http://www.kernel.org/pub/linux/kernel/v3.x/${_srcname}.tar.xz"
 		'0002-module-allow-multiple-calls-to-MODULE_DEVICE_TABLE-p.patch'
 		'0003-module-remove-MODULE_GENERIC_TABLE.patch'
 		'0006-genksyms-fix-typeof-handling.patch'
-		'0012-fix-saa7134.patch'
 		"${_bfqpath}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v7r5-3.14.patch"
 		"${_bfqpath}/0002-block-introduce-the-BFQ-v7r5-I-O-sched-for-3.14.patch"
 		"${_bfqpath}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r5-for-3.14.0.patch"
 		"pax-ck-${pkgver}-${_paxver}.patch"
-        "http://grsecurity.net/test/pax-linux-${pkgver}-${_paxver}.patch")
+        "http://grsecurity.net/~paxguy1/pax-linux-${pkgver}-${_paxver}.patch")
 
 sha256sums=('61558aa490855f42b6340d1a1596be47454909629327c49a5e4e10268065dffa'
-            '55c76714bb9c12c600a142d7ad7ba028447d6da630a84af37968579fc9bb1e73'
+            'e93bcbbd4568449e771f420ddd281a797b8df92ff265d59f849c3f53172fd95e'
             '8b5924a8aa17876d394cdeb84740d96317e94d2430caddf753c416100b917d3c'
             'c6c4a9f77683b95c37636b20c4bc8a1f8214c87feef7fc469e58534fcc32fb4a'
-            'ba3a78919f540024a99d3d498e0c08394eb54c94f24f0b6cdcd57200818173d1'
+            'a7d6d2beffd92764cc9d3f3cb6637313d81087542d9e5efc0b1581ea2e72bc75'
             '85bba2b9e820936b5286aa5bb558127110879ea738dd1bcc6a5303af3c73af39'
             'f126f7d4005b5d0adb61f0ccde95ac42baaf6f2bec14babd6d14935e377481b2'
             'faced4eb4c47c4eb1a9ee8a5bf8a7c4b49d6b4d78efbe426e410730e6267d182'
@@ -113,12 +112,11 @@ sha256sums=('61558aa490855f42b6340d1a1596be47454909629327c49a5e4e10268065dffa'
             '52dec83a8805a8642d74d764494acda863e0aa23e3d249e80d4b457e20a3fd29'
             '65d58f63215ee3c5f9c4fc6bce36fc5311a6c7dbdbe1ad29de40647b47ff9c0d'
             'cf2e7a2d00787f754028e7459688c2755a406e632ce48b60952fa4ff7ed6f4b7'
-            '79359454c9d8446eb55add2b1cdbf8332bd67dafb01fefb5b1ca090225f64d18'
             '02b63f3d4aacb10cf8c75a3ba5f1aa837bf1355362961496214df34084e5e661'
             '151a1154eeafebf7219de88e2e8d2eef928a6d6935aa1370c80a2e3d7dde9ee6'
             '652abc58b8cc1891e1c685c701c9c7b7f29d8a08f7ea70f301b0de35c84d5a92'
-            '4e2348f643ed375388ab35952f843afb6f99bdca6be797a77520693db7d58e47'
-            'de117d5dc3af86cb410060faa07decb38b25d259951caefafd2bc4e151e75686')
+            '78094a40a3e38fe1a211a906065789a83b3ff26cf271283d58d6a089b637e885'
+            '46ebb1826f886ab5bbabe0f116fd5f7764ae600426cf7310348047d732e6cada')
 
 prepare() {
 	cd "${srcdir}"
@@ -154,12 +152,6 @@ prepare() {
 	# http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=dc53324060f324e8af6867f57bf4891c13c6ef18
 	msg "Patching source to fix generation of symbol CRCs"
 	patch -p1 -i "${srcdir}/0006-genksyms-fix-typeof-handling.patch"
-
-	# fix saa7134 video
-	# https://bugs.archlinux.org/task/39904
-	# https://bugzilla.kernel.org/show_bug.cgi?id=73361
-	msg "Patching source to fix saa7134 video"
-	patch -Np1 -i "${srcdir}/0012-fix-saa7134.patch"
 	
 	# patch source with ck patchset with BFS
 	# fix double name in EXTRAVERSION
