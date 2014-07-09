@@ -1,5 +1,6 @@
 # Maintainer: Claire Farron <https://github.com/clfarron4/linux-ck-pax/>
-# Former Maintainer: Duncan Townsend <duncant@mit.edu>
+# Former Maintainer
+#	Duncan Townsend <duncant@mit.edu> (Original Submitter)
 # Contributors of the linux PKGBUILD
 #	Tobias Powalowski <tpowa@archlinux.org>
 #	Thomas Baechler <thomas@archlinux.org>
@@ -70,53 +71,49 @@ _NUMAdisable=y	# Disable NUMA in kernel config
 pkgname=linux-ck-pax
 true && pkgname=(linux-ck-pax linux-ck-pax-headers)
 _kernelname=-ck-pax
-_srcname=linux-3.14
-pkgver=3.14.10
-pkgrel=1
+_srcname=linux-3.15
+pkgver=3.15.4
+pkgrel=2
 arch=('i686' 'x86_64')
 url="https://wiki.archlinux.org/index.php/Linux-ck"
 license=('GPL2')
 makedepends=('kmod' 'inetutils' 'bc')
 options=('!strip')
 _ckpatchversion=1
-_paxver=test13
-_ckpatchname="patch-3.14-ck${_ckpatchversion}"
+_paxver=test2
+_ckpatchname="patch-3.15-ck${_ckpatchversion}"
 _gcc_patch="enable_additional_cpu_optimizations_for_gcc_v4.9+.patch"
-_bfqpath="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/3.14.0-v7r5"
+_bfqpath="http://algo.ing.unimo.it/people/paolo/disk_sched/patches/3.15.0-v7r5"
 source=("http://www.kernel.org/pub/linux/kernel/v3.x/${_srcname}.tar.xz"
 		"http://www.kernel.org/pub/linux/kernel/v3.x/patch-${pkgver}.xz"
-		"http://ck.kolivas.org/patches/3.0/3.14/3.14-ck${_ckpatchversion}/${_ckpatchname}.bz2"
+		"http://ck.kolivas.org/patches/3.0/3.15/3.15-ck${_ckpatchversion}/${_ckpatchname}.bz2"
 		"http://repo-ck.com/source/gcc_patch/${_gcc_patch}.gz"
         'config' 'config.x86_64'
 		'linux-ck-pax.preset'
 		'change-default-console-loglevel.patch'
-		'0001-Bluetooth-allocate-static-minor-for-vhci.patch'
-		'0002-module-allow-multiple-calls-to-MODULE_DEVICE_TABLE-p.patch'
-		'0003-module-remove-MODULE_GENERIC_TABLE.patch'
-		'0006-genksyms-fix-typeof-handling.patch'
-		"${_bfqpath}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v7r5-3.14.patch"
-		"${_bfqpath}/0002-block-introduce-the-BFQ-v7r5-I-O-sched-for-3.14.patch"
-		"${_bfqpath}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r5-for-3.14.0.patch"
+		"${_bfqpath}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v7r5-3.15.patch"
+		"${_bfqpath}/0002-block-introduce-the-BFQ-v7r5-I-O-sched-for-3.15.patch"
+		"${_bfqpath}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v7r5-for-3.15.0.patch"
 		"pax-ck-${pkgver}-${_paxver}.patch"
-        "http://grsecurity.net/~paxguy1/pax-linux-${pkgver}-${_paxver}.patch")
+        "http://grsecurity.net/~paxguy1/pax-linux-${pkgver}-${_paxver}.patch"
+		"kconfig.patch"
+		http://ck.kolivas.org/patches/bfs/3.0/3.15/bfs448-449.patch)
 
-sha256sums=('61558aa490855f42b6340d1a1596be47454909629327c49a5e4e10268065dffa'
-            'e93bcbbd4568449e771f420ddd281a797b8df92ff265d59f849c3f53172fd95e'
-            '8b5924a8aa17876d394cdeb84740d96317e94d2430caddf753c416100b917d3c'
+sha256sums=('c3927e87be4040fa8aca1b58663dc0776aaf00485604ff88a623be2f3fb07794'
+            '65b54621cc10bc08e0759f1348fde871d21222e1ab20207b9ebf9464a0cbb868'
+            '42cf2c373b9daa599d2664042bca2017db485c19ba72eba78cb4506602456a38'
             'c6c4a9f77683b95c37636b20c4bc8a1f8214c87feef7fc469e58534fcc32fb4a'
-            'a7d6d2beffd92764cc9d3f3cb6637313d81087542d9e5efc0b1581ea2e72bc75'
-            '85bba2b9e820936b5286aa5bb558127110879ea738dd1bcc6a5303af3c73af39'
+            '4fd9f68f3110306e010652b1f04e201a00896da9bcab1da9bc4fd3bc8ad1fc18'
+            '06a8ef920ab4c9784bbc04f2b982db5fc4e25019020ab2453328b612e79c72e9'
             'f126f7d4005b5d0adb61f0ccde95ac42baaf6f2bec14babd6d14935e377481b2'
             'faced4eb4c47c4eb1a9ee8a5bf8a7c4b49d6b4d78efbe426e410730e6267d182'
-            '6d72e14552df59e6310f16c176806c408355951724cd5b48a47bf01591b8be02'
-            '52dec83a8805a8642d74d764494acda863e0aa23e3d249e80d4b457e20a3fd29'
-            '65d58f63215ee3c5f9c4fc6bce36fc5311a6c7dbdbe1ad29de40647b47ff9c0d'
-            'cf2e7a2d00787f754028e7459688c2755a406e632ce48b60952fa4ff7ed6f4b7'
-            '02b63f3d4aacb10cf8c75a3ba5f1aa837bf1355362961496214df34084e5e661'
-            '151a1154eeafebf7219de88e2e8d2eef928a6d6935aa1370c80a2e3d7dde9ee6'
-            '652abc58b8cc1891e1c685c701c9c7b7f29d8a08f7ea70f301b0de35c84d5a92'
-            '78094a40a3e38fe1a211a906065789a83b3ff26cf271283d58d6a089b637e885'
-            '46ebb1826f886ab5bbabe0f116fd5f7764ae600426cf7310348047d732e6cada')
+            'ef40c71371168754a1f696216183ffe161aaf1d10add77964e081f3fd36b799b'
+            '1a3ecd9d1e19a6b21f54ad8c7b219c6894fa7c5457a127344d0fe69b62f1c4bd'
+            '3f599d798ff5a3d449c7cf9bfec5503ab598d2d8372b051d5e1bd2419fb16ee0'
+            '308b125b079fba362381a0b690c9933bcb263634c013d63d4b2c681590a99052'
+            '596559401ce4cf34191f697828cd9a87b49633b82207542ad9e8fcf925b31c60'
+            'a2009d134c6c9c1dfbeac85ae5c4269af78530f167b145df8cd2cb1bb17908c0'
+            'a8acb2e232408b10077b9e6392f3ef19ec2ea33f08d04c96be35778d38a9dcd2')
 
 prepare() {
 	cd "${srcdir}"
@@ -139,25 +136,16 @@ prepare() {
 	# (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
 	patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
 
-	# Fix vhci warning in kmod (to restore every kernel maintainer's sanity)
-	msg "Patching source to fix vhci warning in kmod"
-	patch -p1 -i "${srcdir}/0001-Bluetooth-allocate-static-minor-for-vhci.patch"
-
-	# Fix atkbd aliases
-	msg "Patching source to fix atkbd aliases"
-	patch -p1 -i "${srcdir}/0002-module-allow-multiple-calls-to-MODULE_DEVICE_TABLE-p.patch"
-	patch -p1 -i "${srcdir}/0003-module-remove-MODULE_GENERIC_TABLE.patch"
-
-	# Fix generation of symbol CRCs
-	# http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=dc53324060f324e8af6867f57bf4891c13c6ef18
-	msg "Patching source to fix generation of symbol CRCs"
-	patch -p1 -i "${srcdir}/0006-genksyms-fix-typeof-handling.patch"
-	
 	# patch source with ck patchset with BFS
 	# fix double name in EXTRAVERSION
 	sed -i -re "s/^(.EXTRAVERSION).*$/\1 = /" "${srcdir}/${_ckpatchname}"
-	msg "Patching source with ck1 including BFS v0.447"
+	msg "Patching source with ck1 including BFS v0.449"
 	patch -Np1 -i "${srcdir}/${_ckpatchname}"
+	patch -Np1 -i  "${srcdir}/bfs448-449.patch"
+
+		# Patch source to enable more gcc CPU optimizatons via the make nconfig
+	msg "Preparing for GCC optimisations"
+	patch -Np1 -i "${srcdir}/kconfig.patch"
 
 	# Patch source to enable more gcc CPU optimizatons via the make nconfig
 	msg "Patching source to enable more gcc CPU optimizatons"
@@ -283,8 +271,8 @@ build() {
 }
 
 package_linux-ck-pax() {
-	pkgdesc='Linux Kernel with the ck1 patchset and pax patchsets featuring the Brain Fuck Scheduler v0.447 and PaX security patch.'
-	#_Kpkgdesc='Linux Kernel and modules with the ck1 patchset featuring the Brain Fuck Scheduler v0.447.'
+	pkgdesc='Linux Kernel with the ck1 patchset and pax patchsets featuring the Brain Fuck Scheduler v0.449 and PaX security patch.'
+	#_Kpkgdesc='Linux Kernel and modules with the ck1 patchset featuring the Brain Fuck Scheduler v0.449.'
 	#pkgdesc="${_Kpkgdesc}"
 	depends=('linux-pax-flags' 'coreutils' 'linux-firmware' 'mkinitcpio>=0.7')
 	optdepends=('crda: to set the correct wireless channels of your country' 'lirc-ck: Linux Infrared Remote Control kernel modules for linux-ck' 'nvidia-ck: nVidia drivers for linux-ck' 'nvidia-beta-ck: nVidia beta drivers for linux-ck' 'modprobed_db: Keeps track of EVERY kernel module that has ever been probed - useful for those of us who make localmodconfig')
